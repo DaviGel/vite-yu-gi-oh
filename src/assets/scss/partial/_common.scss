@@ -3,3 +3,15 @@
 COMMON
 *********
 */
+
+@import './variables.scss';
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+body {
+  background-color: $primary-color;
+  font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,9 +1,23 @@
 <script>
+import HeaderComponent from './Components/HeaderComponent.vue';
+import MainComponent from './Components/MainComponent.vue';
+
 export default {
-  name: 'DefaultTemplate',
+  name: 'App',
+  components: {
+    HeaderComponent,
+    MainComponent,
+  },
 };
 </script>
 
-<template></template>
+<template>
+  <HeaderComponent />
+  <MainComponent />
+</template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+header {
+  height: 70px;
+}
+</style>
