@@ -5,5 +5,5 @@ export default {
 </script>
 
 <template>
-  <div class="loader">Caricamento in corso...</div>
+  <div class="loader">Caricamento in corso..</div>
 </template>
