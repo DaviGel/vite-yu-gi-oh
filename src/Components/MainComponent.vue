@@ -3,6 +3,7 @@ import axios from 'axios';
 import CardComponent from './CardComponent.vue';
 import { store } from '../store';
 import CardsFounded from './CardsFounded.vue';
+import LoaderComponent from './LoaderComponent.vue';
 
 export default {
   name: 'MainComponent',
@@ -14,6 +15,7 @@ export default {
   components: {
     CardComponent,
     CardsFounded,
+    LoaderComponent,
   },
   mounted() {
     axios
@@ -38,7 +40,7 @@ export default {
     <div class="container">
       <div class="card">
         <CardsFounded :found="store.cards.length" class="founded" />
-        <ul>
+        <ul v-if="store.cards.length === 20">
           <li v-for="card in store.cards">
             <CardComponent
               :img="card.card_images[0].image_url"
@@ -47,6 +49,7 @@ export default {
             />
           </li>
         </ul>
+        <div v-else><LoaderComponent /></div>
       </div>
     </div>
   </main>
