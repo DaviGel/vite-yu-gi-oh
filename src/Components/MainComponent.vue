@@ -49,7 +49,11 @@ export default {
             />
           </li>
         </ul>
-        <div v-else><LoaderComponent /></div>
+        <div v-else>
+          <div class="container">
+            <LoaderComponent />
+          </div>
+        </div>
       </div>
     </div>
   </main>
