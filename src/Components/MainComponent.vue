@@ -10,6 +10,8 @@ export default {
   data() {
     return {
       store,
+      archetypes: '',
+      selectedArchetype: '',
     };
   },
   components: {
@@ -18,11 +20,32 @@ export default {
     LoaderComponent,
   },
   mounted() {
+    this.filteredCards();
     axios
-      .get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
+      .get(`https://db.ygoprodeck.com/api/v7/archetypes.php`)
       .then((response) => {
-        store.cards = response.data.data;
+        this.store.archs = response.data.map((obj) => obj.archetype_name);
       });
+  },
+  methods: {
+    filteredCards() {
+      if (this.selectedArchetype === '') {
+        axios
+          .get('https://db.ygoprodeck.com/api/v7/cardinfo.php?num=20&offset=0')
+          .then((response) => {
+            this.store.cards = response.data.data;
+          });
+      } else {
+        axios
+          .get(
+            `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${this.selectedArchetype}&num=20&offset=0`
+          )
+          .then((response) => {
+            this.store.cards = response.data.data;
+          });
+      }
+      return this.store.cards;
+    },
   },
 };
 </script>
@@ -32,8 +55,11 @@ export default {
     <div class="container select">
       <div class="select-species">
         <label for="species"></label>
-        <select name="specie" id="species">
-          <option value="1">Alien</option>
+        <select name="specie" id="species" v-model="selectedArchetype">
+          <option value="">Select Archetype</option>
+          <option v-for="element in store.archs" :value="element">
+            {{ element }}
+          </option>
         </select>
       </div>
     </div>
@@ -41,7 +67,7 @@ export default {
       <div class="card">
         <CardsFounded :found="store.cards.length" class="founded" />
         <ul v-if="store.cards.length === 20">
-          <li v-for="card in store.cards">
+          <li v-for="card in filteredCards()">
             <CardComponent
               :img="card.card_images[0].image_url"
               :name="card.name"
